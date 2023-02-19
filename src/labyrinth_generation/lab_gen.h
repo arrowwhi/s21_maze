@@ -9,14 +9,20 @@
 namespace s21 {
 
 class Labyrinth {
+
+  using solve_stack = std::stack<std::pair<int, int>>;
  private:
   int rows_;
   int cols_;
   bool** horisontal_matrix_;
   bool** vertical_matrix_;
-  std::vector<int> sideLine_;
+  int** solve_way_;
+  solve_stack solve_line_;
+  std::vector<int> side_line_;
   int counter_ = 0;
   unsigned rand_ = time(nullptr);
+  bool exit_ = true;
+  
 
  public:
   Labyrinth() = delete;
@@ -25,27 +31,35 @@ class Labyrinth {
 
   int GetRows() const noexcept;
   int GetCols() const noexcept;
+  solve_stack GetSolve() const noexcept;
   void SetRowsCols(int rows, int cols);
 
   void Generate();
   int FromFile(std::string path);
   void PrintLab();
+  void PrintSolve();
+  int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
 
+  
  private:
-  void fillEmptyValue();
-  void assignUniqueSet();
-  void addingVerticalWalls(int row);
-  void mergeSet(int index, int element);
-  void addingHorizontalWalls(int row);
-  int calculateUniqueSet(int element);
-  void checkedHorizontalWalls(int row);
-  int calculateHorizontalWalls(int element, int row);
-  void preparatingNewLine(int row);
-  void addingEndLine();
-  void checkedEndLine();
+  void FillEmptyValue();
+  void AssignUniqueSet();
+  void AddingVerticalWalls(int row);
+  void MergeSet(int index, int element);
+  void AddingHorizontalWalls(int row);
+  int CalculateUniqueSet(int element);
+  void CheckedHorizontalWalls(int row);
+  int CalculateHorizontalWalls(int element, int row);
+  void PreparatingNewLine(int row);
+  void AddingEndLine();
+  void CheckedEndLine();
   bool RandomNumber();
 
+  void NextTurn(int i, int j);
+  int GetWay(int x, int y);
+
   void CreateMatrix(bool*** matrix);
+  void CreateMatrix(int*** matrix);
   void DeleteMatrix(bool*** matrix) noexcept;
 };
 
