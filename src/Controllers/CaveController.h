@@ -9,30 +9,39 @@ namespace s21 {
 class CaveController : public QObject {
     Q_OBJECT
     Cave *cave_ = nullptr;
-    // void DelCave() { if (cave_ != nullptr) delete cave_; }
     public:
         CaveController() noexcept {}
-        CaveController(unsigned x, unsigned y, int birth_limit, int death_limit) noexcept {
+        CaveController(uint x, uint y, int birth_limit, int death_limit) noexcept {
             cave_ = new Cave(x, y, birth_limit, death_limit);
         }
-        void Create(unsigned x, unsigned y, double init_chance, int birth_limit, int death_limit) {
+        void Create(uint x, uint y, double init_chance, int birth_limit, int death_limit) {
             delete cave_;
             cave_ = new Cave(x, y, init_chance, birth_limit, death_limit);
         }
-        void Update() {
-            cave_->Update();
+        cave_size FromFile(std::string path, int birth_limit, int death_limit) {
+            if (path != "") {
+                delete cave_;
+                cave_ = new Cave(path, birth_limit, death_limit);
+            }
+            return cave_->GetSize();
         }
-        bool GetLive(unsigned y, unsigned x) {
+        void Save(std::string path) {
+            cave_->Save(path);
+        }
+        bool Update() {
+            return cave_->Update();
+        }
+        bool GetLive(uint y, uint x) {
             return cave_->GetLive(y, x);
         }
-        bool SetWall(unsigned y, unsigned x) {
+        bool SetWall(uint y, uint x) {
             return cave_->SetWall(y, x);
         }
-        bool SetAir(unsigned y, unsigned x) {
+        bool SetAir(uint y, uint x) {
             return cave_->SetAir(y, x);
         }
         ~CaveController() noexcept { delete cave_; }
-        std::stack<std::pair<int, int>> ShortestPath(std::pair<int, int> start, std::pair<int, int> end) {
+        solve_stack ShortestPath(point start, point end) {
             return cave_->ShortestPath(start, end);
         }
 

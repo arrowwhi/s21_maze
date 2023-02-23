@@ -1,17 +1,16 @@
-// #ifndef WIDGET_H
-// #define WIDGET_H
 #pragma once
 
 #include <QWidget>
-// #include <QPen>
-// #include <QBrush>
 #include <QGraphicsSceneMouseEvent>
+#include <functional>
+#include <QTimer>
+#include <QFileDialog>
 
 #include <iostream>
 
 #include "../Controllers/CaveController.h"
 #include "./ui_widget.h"
-// #include "Cave.h"
+#include "../Helpers/Helpers.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -19,41 +18,55 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
-class PassDrawer {
+class PathDrawer {
+    std::function<void()> clear_;
+    std::function<void(uint, uint, QColor)> draw_rect_;
+    std::function<solve_stack(point, point)> shortest_path_;
+    point run_start_;
+    bool run_started_ = false;
     
+    public:
+        PathDrawer() noexcept {}
+        PathDrawer(decltype(clear_) clear, decltype(draw_rect_) draw_rect, decltype(shortest_path_) shortest_path)\
+            noexcept : clear_(clear), draw_rect_(draw_rect), shortest_path_(shortest_path) {}
+        void PathDraw(uint x, uint y);
 };
 
 class CaveScene : public QGraphicsScene {
     Q_OBJECT
 
-    const unsigned width_ = 500, height_ = 500;
-    unsigned step_x_, step_y_;
-    std::pair<int, int> run_start_;
-    bool run_started_ = false;
+    const uint width_ = 500, height_ = 500;
+    uint step_x_, step_y_;
+    PathDrawer path_;
     Ui::Widget *ui_;
-    CaveController *cave_ = nullptr;
+    QTimer *timer_ = nullptr;
+    CaveController *cave_;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void CreateMod(QGraphicsSceneMouseEvent *mouseEvent);
-    void AddRect(unsigned x, unsigned y, QColor color = Qt::black) {
+    void AddRect(uint x, uint y, QColor color = Qt::black) {
         addRect(step_x_ * x, step_y_ * y, step_x_, step_y_, QPen(color), QBrush(color));
     }
+    void StopTimer();
+    // void Draw();
 
     public:
-        CaveScene(Ui::Widget *ui, CaveController *cave) noexcept :\
-                QGraphicsScene(ui->caveView), cave_(cave), ui_(ui),\
-                step_x_(width_ / ui->caveCols->value()), step_y_(height_ / ui->caveRows->value()) {
-            addRect(0, 0, height_, width_);
-        }
-        void Draw();
+        CaveScene(Ui::Widget *ui) noexcept;
+        ~CaveScene() noexcept { delete cave_; }
+        // void Draw();
+        void FromFile(std::string path);
+        void Save(std::string path);
+
 
     public slots:
-        void SetStepY(int rows) {
-            step_y_ = height_ / rows;
-        }
-        void SetStepX(int cols) {
-            step_x_ = width_ / cols;
-        }
+        void SetStepY(int rows) { step_y_ = height_ / rows; }
+        void SetStepX(int cols) { step_x_ = width_ / cols; }
+        void SetBirthLimit(int limit) { cave_->SetBirthLimit(limit); }
+        void SetDeathLimit(int limit) { cave_->SetDeathLimit(limit); }
+        void Create();
+        void Update();
+        void AutoTimer();
+        void Draw();
 };
 
 class Widget : public QWidget {
@@ -61,7 +74,8 @@ class Widget : public QWidget {
 
     Ui::Widget *ui;
     CaveScene *caveScene_ = nullptr;
-    CaveController *cave_;
+    std::string FileOpen();
+    std::string FileSave();
 
     public:
         Widget(QWidget *parent = nullptr);
@@ -69,5 +83,3 @@ class Widget : public QWidget {
 };
 
 }  // namespace s21
-
-// #endif // WIDGET_H

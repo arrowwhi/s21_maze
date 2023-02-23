@@ -19,10 +19,13 @@ set(PROJECT_SOURCES
         ../View/Widget.cc
         ../View/Widget.h
         ../View/widget.ui
+        ../View/CaveScene.cc
         ../Cave/Cave.h
         ../Cave/Cave.cc
-        ../Controllers/CaveController.h
         ../Cave/Part5.cc
+        ../Controllers/CaveController.h
+        
+        ../Helpers/Helpers.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

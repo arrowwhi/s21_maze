@@ -1,24 +1,20 @@
 #include <iostream>
-// #include <vector>
-// #include <stack>
-// #include <queue>
 
 #include "Cave.h"
 
-using namespace std;
+using namespace s21;
 
-stack<pair<int, int>> s21::Cave::ShortestPath(pair<int, int> start, pair<int, int> end) {
+solve_stack Cave::ShortestPath(point start, point end) {
     // Create a 2D array to keep track of visited cells and initialize all values to false
-    bool **visited = new bool *[x_];
+    bool visited[x_][y_];
     for (int i = 0; i < x_; i++) {
-        visited[i] = new bool[y_];
         for (int j = 0; j < y_; j++) {
             visited[i][j] = false;
         }
     }
 
     // Create a queue for BFS
-    queue<pair<int, int>> q;
+    std::queue<point> q;
 
     // Enqueue the starting cell
     q.push(start);
@@ -27,24 +23,23 @@ stack<pair<int, int>> s21::Cave::ShortestPath(pair<int, int> start, pair<int, in
     visited[start.first][start.second] = true;
 
     // Create a 2D array to keep track of parent cells
-    pair<int, int> **parent = new pair<int, int> *[x_];
+    point parent[x_][y_];
     for (int i = 0; i < x_; i++) {
-        parent[i] = new pair<int, int>[y_];
         for (int j = 0; j < y_; j++) {
-            parent[i][j] = make_pair(-1, -1);
+            parent[i][j] = point(-1, -1);
         }
     }
 
     // BFS algorithm
     while (!q.empty()) {
         // Dequeue a cell from the queue
-        pair<int, int> curr = q.front();
+        point curr = q.front();
         q.pop();
 
         // If the dequeued cell is the destination cell, backtrack to find the path and return it
         if (curr == end) {
-            stack<pair<int, int>> path;
-            while (curr != make_pair(-1, -1)) {
+            solve_stack path;
+            while (curr != point(-1, -1)) {
                 path.push(curr);
                 curr = parent[curr.first][curr.second];
             }
@@ -67,7 +62,7 @@ stack<pair<int, int>> s21::Cave::ShortestPath(pair<int, int> start, pair<int, in
                     visited[nx][ny] = true;
 
                     // Enqueue the neighboring cell
-                    q.push(make_pair(nx, ny));
+                    q.push(point(nx, ny));
 
                     // Set the parent of the neighboring cell
                     parent[nx][ny] = curr;
@@ -77,5 +72,5 @@ stack<pair<int, int>> s21::Cave::ShortestPath(pair<int, int> start, pair<int, in
     }
 
     // If there is no path from the starting cell to the destination cell, return an empty vector
-    return stack<pair<int, int>>();
+    return solve_stack();
 }
