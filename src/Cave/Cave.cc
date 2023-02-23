@@ -1,15 +1,24 @@
 #include "Cave.h"
 
-Cave::Cave(unsigned x, unsigned y, double init_chance, unsigned birth_limit, unsigned death_limit) noexcept\
-                    : x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
+using namespace s21;
 
+Cave::Cave(unsigned x, unsigned y, double init_chance, int birth_limit, int death_limit)\
+        noexcept : x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
     std::default_random_engine generator(std::random_device{}());
     std::bernoulli_distribution distribution(init_chance);
+    Allocate(x, y, [&]{ return distribution(generator); });
+}
 
+Cave::Cave(unsigned x, unsigned y, int birth_limit, int death_limit) noexcept :\
+            x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
+    Allocate(x, y, []{ return false; });
+}
+
+void Cave::Allocate(unsigned x, unsigned y, std::function<bool(void)> value_func) {
     cave_ = new bool*[y];
     for (unsigned k = 0; k < y_; k++) {
         cave_[k] = new bool[x];
-        std::generate_n(cave_[k], x, [&]{ return distribution(generator); });
+        std::generate_n(cave_[k], x, value_func);
     }
 }
 
@@ -23,19 +32,41 @@ Cave::~Cave() noexcept {
         delete[] cave_;
 }
 
-bool Cave::getLive(unsigned x, unsigned y) const {
-    if (x > x_ || y > y_)
-        return false;
-    return cave_[x][y];
+void Cave::SetBirthLimit(int birth_limit) {
+    birth_limit_ = birth_limit;
 }
 
-void Cave::update() {
+void Cave::SetDeathLimit(int death_limit) {
+    death_limit_ = death_limit;
+}
+
+bool Cave::GetLive(unsigned y, unsigned x) const {
+    if (x >= x_ || y >= y_)
+        return false;
+    return cave_[y][x];
+}
+
+bool Cave::SetWall(unsigned y, unsigned x) {
+    if (x >= x_ || y >= y_) return false;
+    bool ret = cave_[y][x];
+    cave_[y][x] = true;
+    return !ret;
+}
+
+bool Cave::SetAir(unsigned y, unsigned x) {
+    if (x >= x_ || y >= y_) return false;
+    bool ret = cave_[y][x];
+    cave_[y][x] = false;
+    return ret;
+}
+
+void Cave::Update() {
     std::vector<std::pair<unsigned, unsigned>> live_cells, dead_cells;
 
     // Find all live and dead cells that need to be updated
     for (unsigned i = 0; i < y_; i++) {
         for (unsigned j = 0; j < x_; j++) {
-            unsigned live_neighbors = count_live_neighbors(i, j);
+            int live_neighbors = CountLiveNeighbors(i, j);
             if (cave_[i][j]) {
                 if (live_neighbors < death_limit_) {
                     // cell dies
@@ -59,8 +90,8 @@ void Cave::update() {
     }
 }
 
-unsigned Cave::count_live_neighbors(unsigned i, unsigned j) {
-    unsigned live_neighbors = 0;
+int Cave::CountLiveNeighbors(unsigned i, unsigned j) {
+    int live_neighbors = 0;
     for (int k = -1; k <= 1; k++) {
         for (int l = -1; l <= 1; l++) {
             if (k == 0 && l == 0) continue;

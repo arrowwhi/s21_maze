@@ -159,9 +159,9 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QPushButton" name="caveAuto">
+            <widget class="QPushButton" name="caveNext">
              <property name="text">
-              <string>Automatic</string>
+              <string>Next step</string>
              </property>
             </widget>
            </item>
@@ -173,16 +173,16 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="caveNext">
+            <widget class="QPushButton" name="caveAuto">
              <property name="text">
-              <string>Next step</string>
+              <string>Automatic</string>
              </property>
             </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QSpinBox" name="spinBox_2">
+              <widget class="QSpinBox" name="caveMs">
                <property name="minimum">
                 <number>100</number>
                </property>
@@ -247,12 +247,18 @@
                  <property name="maximum">
                   <number>7</number>
                  </property>
+                 <property name="value">
+                  <number>4</number>
+                 </property>
                 </widget>
                </item>
                <item>
-                <widget class="QSpinBox" name="spinBox">
+                <widget class="QSpinBox" name="caveDeath">
                  <property name="maximum">
                   <number>7</number>
+                 </property>
+                 <property name="value">
+                  <number>4</number>
                  </property>
                 </widget>
                </item>
@@ -393,7 +399,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                <widget class="QDoubleSpinBox" name="caveChance">
                  <property name="maximum">
                   <double>1.000000000000000</double>
                  </property>
@@ -456,7 +462,64 @@
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_6">
+          <widget class="Line" name="line_10">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>4</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="Line" name="line_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QCheckBox" name="caveRunMode">
+             <property name="text">
+              <string>run</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup</string>
+             </attribute>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="caveCreateMode">
+             <property name="text">
+              <string>create</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup</string>
+             </attribute>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -478,4 +541,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>
