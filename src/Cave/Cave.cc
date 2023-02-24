@@ -31,12 +31,20 @@ Cave::Cave(std::string path, int birth_limit, int death_limit) :
     file.close();
 }
 
+void Cave::Allocate(uint x, uint y, std::function<bool(void)> value_func) {
+    cave_ = new bool*[y];
+    for (uint k = 0; k < y_; ++k) {
+        cave_[k] = new bool[x];
+        std::generate_n(cave_[k], x, value_func);
+    }
+}
+
 void Cave::Save(std::string path) {
     std::ofstream file(path + ".mzcv");
     if (!file) return;
     file << x_ << " " << y_ << "\n";
-    for (uint i = 0; i < y_; i++) {
-        for (uint j = 0; j < x_; j++) {
+    for (uint i = 0; i < y_; ++i) {
+        for (uint j = 0; j < x_; ++j) {
             file << cave_[i][j] << " ";
         }
         file << "\n";
@@ -44,17 +52,9 @@ void Cave::Save(std::string path) {
     file.close();
 }
 
-void Cave::Allocate(uint x, uint y, std::function<bool(void)> value_func) {
-    cave_ = new bool*[y];
-    for (uint k = 0; k < y_; k++) {
-        cave_[k] = new bool[x];
-        std::generate_n(cave_[k], x, value_func);
-    }
-}
-
 Cave::~Cave() noexcept {
     if (x_ != 0) {
-        for (uint k = 0; k < y_; k++ ) {
+        for (uint k = 0; k < y_; ++k) {
             delete[] cave_[k];
         }
     }
@@ -94,9 +94,10 @@ bool Cave::Update() {
     std::vector<std::pair<uint, uint>> live_cells, dead_cells;
 
     // Find all live and dead cells that need to be updated
-    for (uint i = 0; i < y_; i++) {
-        for (uint j = 0; j < x_; j++) {
+    for (uint i = 0; i < y_; ++i) {
+        for (uint j = 0; j < x_; ++j) {
             int live_neighbors = CountLiveNeighbors(i, j);
+            // std::cout << live_neighbors << cave_[i][j] << " ";
             if (cave_[i][j]) {
                 if (live_neighbors < death_limit_) {
                     // cell dies
@@ -109,8 +110,12 @@ bool Cave::Update() {
                 }
             }
         }
+        // std::cout << "\n";
     }
-    if (live_cells.size() == 0 && live_cells.size() == 0) {
+    // std::cout << "\n";
+    // print();
+    // std::cout << live_cells.size() << " " << dead_cells.size() << "\n";
+    if (live_cells.size() == 0 && dead_cells.size() == 0) {
         return true;
     }
     // Update the state of the cells
@@ -123,13 +128,18 @@ bool Cave::Update() {
     return false;
 }
 
-int Cave::CountLiveNeighbors(uint i, uint j) {
+int Cave::CountLiveNeighbors(int i, int j) {
     int live_neighbors = 0;
-    for (int k = -1; k <= 1; k++) {
-        for (int l = -1; l <= 1; l++) {
-            if (k == 0 && l == 0) continue;
-            int row = i + k;
-            int col = j + l;
+    // for (int k = -1; k <= 1; k++) {
+    //     for (int l = -1; l <= 1; l++) {
+    //         if (k == 0 && l == 0) continue;
+    //         int row = i + k;
+    //         int col = j + l;
+    //         if (row < 0 || col < 0 || row >= y_ || col >= x_ || cave_[row][col]) live_neighbors++;
+    //     }
+    for (int row = i - 1; row <= i + 1; ++row) {
+        for (int col = j - 1; col <= j + 1; ++col) {
+            if (row == i && col == j) continue;
             if (row < 0 || col < 0 || row >= y_ || col >= x_ || cave_[row][col]) live_neighbors++;
         }
     }

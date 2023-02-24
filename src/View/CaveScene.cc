@@ -2,15 +2,10 @@
 
 using namespace s21;
 
-CaveScene::CaveScene(Ui::Widget *ui) noexcept :
-        QGraphicsScene(ui->caveView),
+CaveScene::CaveScene(Ui::Widget *ui) noexcept : ui_(ui),
         cave_(new CaveController(ui->caveCols->value(), ui->caveRows->value(),
             ui->caveBirth->value(), ui->caveDeath->value())),
-        ui_(ui),
-        step_x_(width_ / ui->caveCols->value()),
-        step_y_(height_ / ui->caveRows->value()),
-        path_([&]{ Draw(); }, [&](uint x, uint y, QColor color){ AddRect(x, y, color); },
-            [&](point start, point end){ return cave_->ShortestPath(start, end); }) {
+        Scene(ui->caveCols->value(), ui->caveRows->value(), ui->caveView) {
     addRect(0, 0, height_, width_);
 }
 
@@ -49,7 +44,7 @@ void CaveScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
         uint x = (uint)mouseEvent->scenePos().x() / step_x_;
         uint y = (uint)mouseEvent->scenePos().y() / step_y_;
         if (!cave_->GetLive(y, x)) {
-            path_.PathDraw(x, y);
+            PathDraw(x, y);
         }
     }
 }
@@ -59,13 +54,21 @@ void CaveScene::CreateMod(QGraphicsSceneMouseEvent *mouseEvent) {
     uint y = (uint)mouseEvent->scenePos().y() / step_y_;
     if (mouseEvent->modifiers() & Qt::ControlModifier) {
         if (cave_->SetAir(y, x)) {
-            AddRect(x, y, Qt::white);
+            AddRect(x, y, Def::empty_color);
         }
     } else {
         if (cave_->SetWall(y, x)) {
-            AddRect(x, y);
+            AddRect(x, y, Def::wall_color);
         }
     }
+}
+
+void CaveScene::AddRect(uint x, uint y, QColor color) {
+    addRect(step_x_ * x, step_y_ * y, step_x_, step_y_, QPen(color), QBrush(color));
+}
+
+solve_stack CaveScene::ShortestPath(point start, point end) {
+    return cave_->ShortestPath(start, end);
 }
 
 void CaveScene::Draw() {
@@ -73,11 +76,9 @@ void CaveScene::Draw() {
     uint x = ui_->caveCols->value();
     uint y = ui_->caveRows->value();
     addRect(0, 0, height_, width_);
-    for (int i = 0; i < y; i++) {
-        for (int j = 0; j < x; j++) {
-            if (cave_->GetLive(i, j)) {
-                AddRect(j, i);
-            }
+    for (int i = 0; i < y; ++i) {
+        for (int j = 0; j < x; ++j) {
+            AddRect(j, i, cave_->GetLive(i, j) ? Def::wall_color : Def::empty_color);
         }
     }
 }

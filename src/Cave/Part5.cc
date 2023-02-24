@@ -7,8 +7,8 @@ using namespace s21;
 solve_stack Cave::ShortestPath(point start, point end) {
     // Create a 2D array to keep track of visited cells and initialize all values to false
     bool visited[x_][y_];
-    for (int i = 0; i < x_; i++) {
-        for (int j = 0; j < y_; j++) {
+    for (int i = 0; i < x_; ++i) {
+        for (int j = 0; j < y_; ++j) {
             visited[i][j] = false;
         }
     }
@@ -24,8 +24,8 @@ solve_stack Cave::ShortestPath(point start, point end) {
 
     // Create a 2D array to keep track of parent cells
     point parent[x_][y_];
-    for (int i = 0; i < x_; i++) {
-        for (int j = 0; j < y_; j++) {
+    for (int i = 0; i < x_; ++i) {
+        for (int j = 0; j < y_; ++j) {
             parent[i][j] = point(-1, -1);
         }
     }
@@ -50,7 +50,7 @@ solve_stack Cave::ShortestPath(point start, point end) {
         // Explore the 4 neighboring cells (up, right, down, left)
         int dx[] = {-1, 0, 1, 0};
         int dy[] = {0, 1, 0, -1};
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             int nx = curr.first + dx[i];
             int ny = curr.second + dy[i];
 

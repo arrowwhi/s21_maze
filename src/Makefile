@@ -25,6 +25,9 @@ start:
 dist:
 	tar czf ../dist.tar *
 
+test:
+	$(MAKE) -C Cave/Test
+
 dvi:
 	open ../README_RUS.md
 

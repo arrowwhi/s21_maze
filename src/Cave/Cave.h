@@ -1,10 +1,10 @@
 #pragma once
 
 #include <iostream>
+
 #include <random>
 #include <algorithm>
 #include <functional>
-// #include <ostream>
 #include <fstream>
 #include <queue>
 
@@ -18,7 +18,7 @@ class Cave {
     uint x_ = 0, y_ = 0;
     bool **cave_;
     int birth_limit_, death_limit_;
-    int CountLiveNeighbors(uint i, uint j);
+    int CountLiveNeighbors(int i, int j);
     void Allocate(uint x, uint y, std::function<bool(void)> value_func);
 
     public:
@@ -40,10 +40,11 @@ class Cave {
         void print() {
             for (int k = 0; k < y_; k++) {
                 for (int g = 0; g < x_; g++) {
-                    std::cout << cave_[k][g] << " ";
+                    std::cout << cave_[k][g] << "";
                 }
                 std::cout << "\n";
             }
+            std::cout << "\n";
         }
 };
 
