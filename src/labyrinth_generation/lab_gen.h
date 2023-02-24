@@ -43,6 +43,7 @@ class Labyrinth {
   
  private:
   void FillEmptyValue();
+  bool RandomNumber();
   void AssignUniqueSet();
   void AddingVerticalWalls(int row);
   void MergeSet(int index, int element);
@@ -53,7 +54,6 @@ class Labyrinth {
   void PreparatingNewLine(int row);
   void AddingEndLine();
   void CheckedEndLine();
-  bool RandomNumber();
 
   void NextTurn(int i, int j);
   int GetWay(int x, int y);

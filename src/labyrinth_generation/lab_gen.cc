@@ -106,6 +106,10 @@ void Labyrinth::Generate() {
     AssignUniqueSet();
     AddingVerticalWalls(j);
     AddingHorizontalWalls(j);
+    for (int i = 0; i < cols_; i++) {
+      std::cout << side_line_[i] << " ";
+    }
+    std::cout << std::endl;
     CheckedHorizontalWalls(j);
     PreparatingNewLine(j);
   }
@@ -117,6 +121,7 @@ void Labyrinth::FillEmptyValue() {
     side_line_.push_back(0);
   }
 }
+
 
 void Labyrinth::AssignUniqueSet() {
   for (int i = 0; i < cols_; i++) {
@@ -141,48 +146,11 @@ void Labyrinth::AddingVerticalWalls(int row) {
 
 void Labyrinth::MergeSet(int index, int element) {
   int mutableSet = side_line_[index + 1];
-  for (int j = 0; j < cols_; j++) {
+  for (int j = index; j < cols_; j++) {
     if (side_line_[j] == mutableSet) {
       side_line_[j] = element;
     }
   }
-}
-
-void Labyrinth::AddingHorizontalWalls(int row) {
-  for (int i = 0; i < cols_; i++) {
-    bool choise = RandomNumber();
-    if (CalculateUniqueSet(side_line_[i]) != 1 && !choise) {
-      horisontal_matrix_[row][i] = true;
-    }
-  }
-}
-
-int Labyrinth::CalculateUniqueSet(int element) {
-  int countUniqSet = 0;
-  for (int i = 0; i < cols_; i++) {
-    if (side_line_[i] == element) {
-      countUniqSet++;
-    }
-  }
-  return countUniqSet;
-}
-
-void Labyrinth::CheckedHorizontalWalls(int row) {
-  for (int i = 0; i < cols_; i++) {
-    if (CalculateHorizontalWalls(side_line_[i], row) == 0) {
-      horisontal_matrix_[row][i] = true;
-    }
-  }
-}
-
-int Labyrinth::CalculateHorizontalWalls(int element, int row) {
-  int countHorizontalWalls = 0;
-  for (int i = 0; i < cols_; i++) {
-    if (side_line_[i] == element && !horisontal_matrix_[row][i]) {
-      countHorizontalWalls++;
-    }
-  }
-  return countHorizontalWalls;
 }
 
 void Labyrinth::PreparatingNewLine(int row) {
@@ -209,6 +177,47 @@ void Labyrinth::CheckedEndLine() {
   }
   horisontal_matrix_[rows_ - 1][cols_ - 1] = true;
 }
+
+
+void Labyrinth::AddingHorizontalWalls(int row) {
+  for (int i = 0; i < cols_; i++) {
+    bool choise = RandomNumber();
+    if (CalculateUniqueSet(side_line_[i]) > 1 && !choise) {
+      horisontal_matrix_[row][i] = true;
+    }
+  }
+}
+
+int Labyrinth::CalculateUniqueSet(int element) {
+  int countUniqSet = 0;
+  for (int i = 0; i < cols_; i++) {
+    if (side_line_[i] == element) {
+      countUniqSet++;
+    }
+  }
+  return countUniqSet;
+}
+
+void Labyrinth::CheckedHorizontalWalls(int row) {
+  for (int i = 0; i < cols_; i++) {
+    if (CalculateHorizontalWalls(side_line_[i], row) == 0) {
+      horisontal_matrix_[row][i] = false;
+    }
+  }
+}
+
+int Labyrinth::CalculateHorizontalWalls(int element, int row) {
+  int countHorizontalWalls = 0;
+  for (int i = 0; i < cols_; i++) {
+    if (side_line_[i] == element && !horisontal_matrix_[row][i]) {
+      countHorizontalWalls++;
+    }
+  }
+  std::cout << element << " in " << row << " is count " << countHorizontalWalls << std::endl;
+  return countHorizontalWalls;
+}
+
+
 
 bool Labyrinth::RandomNumber() {
   srand((unsigned)rand_);
