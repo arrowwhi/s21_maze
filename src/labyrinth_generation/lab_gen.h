@@ -39,7 +39,7 @@ class Labyrinth {
   void PrintLab();
   void PrintSolve();
   int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
-
+  std::pair<bool, bool> GetCell(int i, int j);
   
  private:
   void FillEmptyValue();
