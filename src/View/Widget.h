@@ -21,8 +21,6 @@ QT_END_NAMESPACE
 namespace s21 {
 
 class Scene : public QGraphicsScene {
-    // Q_OBJECT
-
     protected:
         point run_start_;
         bool run_started_ = false;
@@ -32,7 +30,7 @@ class Scene : public QGraphicsScene {
         void AddLine(point start, point end);
         void AddPoint(uint x, uint y);
         void PathDraw(uint x, uint y);
-        virtual solve_stack ShortestPath(point start, point end) = 0;
+        virtual const solve_stack &ShortestPath(point start, point end) = 0;
 
     public:
         Scene(int cols, int rows, QGraphicsView *graphic) noexcept;
@@ -51,7 +49,7 @@ class CaveScene : public Scene {
     void CreateMod(QGraphicsSceneMouseEvent *mouseEvent);
     void StopTimer();
     void AddRect(uint x, uint y, QColor color);
-    solve_stack ShortestPath(point start, point end) override;
+    const solve_stack &ShortestPath(point start, point end) override;
 
     public:
         CaveScene(Ui::Widget *ui) noexcept;
@@ -76,7 +74,7 @@ class MazeScene : public Scene {
     QPen cell_pen_;
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void AddCell(int x, int y, std::pair<bool, bool> cell);
-    solve_stack ShortestPath(point start, point end) override;
+    const solve_stack &ShortestPath(point start, point end) override;
 
     public:
         MazeScene(Ui::Widget *ui) noexcept;

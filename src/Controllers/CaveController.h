@@ -44,7 +44,7 @@ class CaveController : public QObject {
             return cave_->SetAir(y, x);
         }
         ~CaveController() noexcept { delete cave_; }
-        solve_stack ShortestPath(point start, point end) {
+        const solve_stack &ShortestPath(point start, point end) {
             return cave_->ShortestPath(start, end);
         }
 

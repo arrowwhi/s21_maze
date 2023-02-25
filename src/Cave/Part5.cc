@@ -4,7 +4,8 @@
 
 using namespace s21;
 
-solve_stack Cave::ShortestPath(point start, point end) {
+const solve_stack &Cave::ShortestPath(point start, point end) {
+    path_ = solve_stack();
     bool visited[x_][y_];
     for (int i = 0; i < x_; ++i) {
         for (int j = 0; j < y_; ++j) {
@@ -29,12 +30,12 @@ solve_stack Cave::ShortestPath(point start, point end) {
         q.pop();
 
         if (curr == end) {
-            solve_stack path;
+            // solve_stack path;
             while (curr != point(-1, -1)) {
-                path.push(curr);
+                path_.push(curr);
                 curr = parent[curr.first][curr.second];
             }
-            return path;
+            return path_;
         }
 
         int dx[] = {-1, 0, 1, 0};
@@ -52,5 +53,6 @@ solve_stack Cave::ShortestPath(point start, point end) {
             }
         }
     }
-    return solve_stack();
+    path_ = solve_stack();
+    return path_;
 }

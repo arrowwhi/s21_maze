@@ -33,7 +33,7 @@ class MazeController : public QObject {
             return maze_->GetCell(y, x);
         }
         ~MazeController() noexcept { delete maze_; }
-        solve_stack ShortestPath(point start, point end) {
+        const solve_stack &ShortestPath(point start, point end) {
             maze_->LabyrinthSolve(start, end);
             return maze_->GetSolve();
         }

@@ -20,6 +20,7 @@ class Cave {
     int birth_limit_, death_limit_;
     int CountLiveNeighbors(int i, int j);
     void Allocate(uint x, uint y, std::function<bool(void)> value_func);
+    solve_stack path_;
 
     public:
         Cave(uint x, uint y, double init_chance, int birth_limit, int death_limit) noexcept;
@@ -33,7 +34,7 @@ class Cave {
         void SetDeathLimit(int death_limit);
         bool SetWall(uint y, uint x);
         bool SetAir(uint y, uint x);
-        solve_stack ShortestPath(point start, point end);
+        const solve_stack &ShortestPath(point start, point end);
         view_size GetSize() const { return view_size(x_, y_); }
         void Save(std::string path);
 

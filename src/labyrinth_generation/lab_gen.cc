@@ -356,7 +356,7 @@ int Labyrinth::GetWay(int x, int y) {
   return 0;
 }
 
-solve_stack Labyrinth::GetSolve() const noexcept {
+const solve_stack &Labyrinth::GetSolve() const noexcept {
   return solve_line_;
 }
 

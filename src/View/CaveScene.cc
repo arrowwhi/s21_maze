@@ -70,7 +70,7 @@ void CaveScene::AddRect(uint x, uint y, QColor color) {
     addRect(step_x_ * x, step_y_ * y, step_x_, step_y_, QPen(color), QBrush(color));
 }
 
-solve_stack CaveScene::ShortestPath(point start, point end) {
+const solve_stack &CaveScene::ShortestPath(point start, point end) {
     return cave_->ShortestPath(start, end);
 }
 

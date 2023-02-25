@@ -32,7 +32,7 @@ class Labyrinth {
 
   int GetRows() const noexcept;
   int GetCols() const noexcept;
-  solve_stack GetSolve() const noexcept;
+  const solve_stack &GetSolve() const noexcept;
   void SetRowsCols(int rows, int cols);
 
   void Generate();

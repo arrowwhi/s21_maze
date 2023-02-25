@@ -29,7 +29,7 @@ void MazeScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
     PathDraw(mouseEvent->scenePos().x() / step_x_, mouseEvent->scenePos().y() / step_y_);
 }
 
-solve_stack MazeScene::ShortestPath(point start, point end) {
+const solve_stack &MazeScene::ShortestPath(point start, point end) {
     return maze_->ShortestPath(start, end);
 }
 
