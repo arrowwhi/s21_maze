@@ -20,10 +20,14 @@ set(PROJECT_SOURCES
         ../View/Widget.h
         ../View/widget.ui
         ../View/CaveScene.cc
+        ../View/MazeScene.cc
+        ../Controllers/CaveController.h
+        ../Controllers/MazeController.h
         ../Cave/Cave.h
         ../Cave/Cave.cc
         ../Cave/Part5.cc
-        ../Controllers/CaveController.h
+        ../labyrinth_generation/lab_gen.cc
+        ../labyrinth_generation/lab_gen.h
         
         ../Helpers/Helpers.h
 )

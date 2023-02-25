@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "../Controllers/CaveController.h"
+#include "../Controllers/MazeController.h"
 #include "./ui_widget.h"
 #include "Constants.h"
 
@@ -20,7 +21,7 @@ QT_END_NAMESPACE
 namespace s21 {
 
 class Scene : public QGraphicsScene {
-    Q_OBJECT
+    // Q_OBJECT
 
     protected:
         point run_start_;
@@ -36,10 +37,7 @@ class Scene : public QGraphicsScene {
     public:
         Scene(int cols, int rows, QGraphicsView *graphic) noexcept;
         virtual void Draw() = 0;
-
-    public slots:
-        void SetStepY(double rows) { step_y_ = height_ / rows; }
-        void SetStepX(double cols) { step_x_ = width_ / cols; }
+        void SetSteps(double rows, double cols);
 };
 
 class CaveScene : public Scene {
@@ -53,7 +51,7 @@ class CaveScene : public Scene {
     void CreateMod(QGraphicsSceneMouseEvent *mouseEvent);
     void StopTimer();
     void AddRect(uint x, uint y, QColor color);
-    solve_stack ShortestPath(point start, point end);
+    solve_stack ShortestPath(point start, point end) override;
 
     public:
         CaveScene(Ui::Widget *ui) noexcept;
@@ -70,11 +68,32 @@ class CaveScene : public Scene {
         void Draw() override;
 };
 
+class MazeScene : public Scene {
+    Q_OBJECT
+
+    Ui::Widget *ui_;
+    MazeController *maze_;
+    QPen cell_pen_;
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void AddCell(int x, int y, std::pair<bool, bool> cell);
+    solve_stack ShortestPath(point start, point end) override;
+
+    public:
+        MazeScene(Ui::Widget *ui) noexcept;
+        ~MazeScene() noexcept { delete maze_; }
+        void FromFile(std::string path);
+        void Draw() override;
+    
+    public slots:
+        void Create();
+};
+
 class Widget : public QWidget {
     Q_OBJECT
 
     Ui::Widget *ui;
     CaveScene *caveScene_ = nullptr;
+    MazeScene *mazeScene_ = nullptr;
     std::string FileOpen();
     std::string FileSave();
 

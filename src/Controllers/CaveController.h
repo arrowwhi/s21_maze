@@ -18,11 +18,14 @@ class CaveController : public QObject {
             delete cave_;
             cave_ = new Cave(x, y, init_chance, birth_limit, death_limit);
         }
-        cave_size FromFile(std::string path, int birth_limit, int death_limit) {
+        view_size FromFile(std::string path, int birth_limit, int death_limit) {
             if (path != "") {
                 delete cave_;
                 cave_ = new Cave(path, birth_limit, death_limit);
             }
+            return GetSize();
+        }
+        view_size GetSize() {
             return cave_->GetSize();
         }
         void Save(std::string path) {

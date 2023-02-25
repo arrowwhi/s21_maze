@@ -12,7 +12,7 @@
 
 namespace s21 {
 
-typedef std::pair<int, int> cave_size;
+// typedef std::pair<int, int> cave_size;
 
 class Cave {
     uint x_ = 0, y_ = 0;
@@ -34,7 +34,7 @@ class Cave {
         bool SetWall(uint y, uint x);
         bool SetAir(uint y, uint x);
         solve_stack ShortestPath(point start, point end);
-        cave_size GetSize() const { return cave_size(x_, y_); }
+        view_size GetSize() const { return view_size(x_, y_); }
         void Save(std::string path);
 
         void Print();

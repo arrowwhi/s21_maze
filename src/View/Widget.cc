@@ -9,19 +9,23 @@ Widget::Widget(QWidget *parent) : QWidget(parent) , ui(new Ui::Widget) {
     ui->caveView->setScene((QGraphicsScene*)caveScene_);
     connect(ui->caveBirth, qOverload<int>(&QSpinBox::valueChanged), caveScene_, &CaveScene::SetBirthLimit);
     connect(ui->caveDeath, qOverload<int>(&QSpinBox::valueChanged), caveScene_, &CaveScene::SetDeathLimit);
-    connect(ui->caveRows, qOverload<int>(&QSpinBox::valueChanged), caveScene_, &CaveScene::SetStepY);
-    connect(ui->caveCols, qOverload<int>(&QSpinBox::valueChanged), caveScene_, &CaveScene::SetStepX);
     connect(ui->caveCreateMode, &QCheckBox::clicked, caveScene_, &CaveScene::Draw);
     connect(ui->caveCreate, &QPushButton::clicked, caveScene_, &CaveScene::Create);
     connect(ui->caveNext, &QPushButton::clicked, caveScene_, &CaveScene::Update);
     connect(ui->caveAuto, &QPushButton::clicked, caveScene_, &CaveScene::AutoTimer);
     connect(ui->caveFile, &QPushButton::clicked, this, [&]{ caveScene_->FromFile(FileOpen()); });
     connect(ui->caveSave, &QPushButton::clicked, this, [&]{ caveScene_->Save(FileSave()); });
+
+    mazeScene_ = new MazeScene(ui);
+    ui->mazeView->setScene((QGraphicsScene*)mazeScene_);
+    connect(ui->mazeCreate, &QPushButton::clicked, mazeScene_, &MazeScene::Create);
+    connect(ui->mazeFile, &QPushButton::clicked, this, [&]{ mazeScene_->FromFile(FileOpen()); });
 }
 
 Widget::~Widget() {
     delete ui;
     delete caveScene_;
+    delete mazeScene_;
 }
 
 std::string Widget::FileOpen() {
@@ -36,7 +40,8 @@ std::string Widget::FileSave() {
 
 Scene::Scene(int cols, int rows, QGraphicsView *graphic) noexcept :
         QGraphicsScene(graphic), step_x_(width_ / cols),
-        step_y_(height_ / rows), line_pen_((Def::path_color)) {
+        step_y_(height_ / rows), line_pen_(Def::path_color) {
+
     line_pen_.setWidth(Def::path_size);
 }
 
@@ -66,4 +71,9 @@ void Scene::PathDraw(uint x, uint y) {
         }
         run_started_ = false;
     }
+}
+
+void Scene::SetSteps(double rows, double cols) {
+    step_y_ = height_ / rows;
+    step_x_ = width_ / cols;
 }
