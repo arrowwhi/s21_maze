@@ -4,6 +4,8 @@ using namespace s21;
 
 using solve_stack = std::stack<std::pair<int, int>>;
 
+Labyrinth::Labyrinth() : rows_(0), cols_(0) {}
+
 Labyrinth::Labyrinth(int rows, int cols) : rows_(rows), cols_(cols) {
   if (rows_ <= 0 || cols_ <= 0)
     throw std::out_of_range(
@@ -69,8 +71,12 @@ void Labyrinth::SetRowsCols(int rows, int cols) {
   if (rows <= 0 || cols <= 0)
     throw std::out_of_range("Incorrect input, size should be positive");
   if (rows != rows_ || cols != cols_) {
-    DeleteMatrix(&horisontal_matrix_);
-    DeleteMatrix(&vertical_matrix_);
+    if (horisontal_matrix_){
+      DeleteMatrix(&horisontal_matrix_);
+    }
+    if (vertical_matrix_) {
+      DeleteMatrix(&vertical_matrix_);
+    }
     rows_ = rows;
     cols_ = cols;
     CreateMatrix(&horisontal_matrix_);
@@ -106,10 +112,6 @@ void Labyrinth::Generate() {
     AssignUniqueSet();
     AddingVerticalWalls(j);
     AddingHorizontalWalls(j);
-    for (int i = 0; i < cols_; i++) {
-      std::cout << side_line_[i] << " ";
-    }
-    std::cout << std::endl;
     CheckedHorizontalWalls(j);
     PreparatingNewLine(j);
   }
@@ -188,7 +190,7 @@ void Labyrinth::AddingHorizontalWalls(int row) {
   }
 }
 
-int Labyrinth::CalculateUniqueSet(int element) {
+int Labyrinth::CalculateUniqueSet(int element) const {
   int countUniqSet = 0;
   for (int i = 0; i < cols_; i++) {
     if (side_line_[i] == element) {
@@ -206,14 +208,13 @@ void Labyrinth::CheckedHorizontalWalls(int row) {
   }
 }
 
-int Labyrinth::CalculateHorizontalWalls(int element, int row) {
+int Labyrinth::CalculateHorizontalWalls(int element, int row) const {
   int countHorizontalWalls = 0;
   for (int i = 0; i < cols_; i++) {
     if (side_line_[i] == element && !horisontal_matrix_[row][i]) {
       countHorizontalWalls++;
     }
   }
-  std::cout << element << " in " << row << " is count " << countHorizontalWalls << std::endl;
   return countHorizontalWalls;
 }
 
@@ -349,6 +350,7 @@ int Labyrinth::GetWay(int x, int y) {
       y = y-1;
     }
     solve_way_[x][y]+=cou;
+    solve_line_.push(std::make_pair(x,y));
     cou++;
   }
   return 0;
@@ -356,4 +358,8 @@ int Labyrinth::GetWay(int x, int y) {
 
 solve_stack Labyrinth::GetSolve() const noexcept {
   return solve_line_;
+}
+
+std::pair<bool, bool> Labyrinth::GetCell(int i, int j) const noexcept {
+  return std::make_pair(horisontal_matrix_[i][j], vertical_matrix_[i][j]);
 }

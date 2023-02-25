@@ -25,7 +25,7 @@ class Labyrinth {
   
 
  public:
-  Labyrinth() = delete;
+  Labyrinth();
   Labyrinth(int rows, int cols);
   ~Labyrinth();
 
@@ -39,7 +39,7 @@ class Labyrinth {
   void PrintLab();
   void PrintSolve();
   int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
-  std::pair<bool, bool> GetCell(int i, int j);
+  std::pair<bool, bool> GetCell(int i, int j) const noexcept;
   
  private:
   void FillEmptyValue();
@@ -48,9 +48,9 @@ class Labyrinth {
   void AddingVerticalWalls(int row);
   void MergeSet(int index, int element);
   void AddingHorizontalWalls(int row);
-  int CalculateUniqueSet(int element);
+  int CalculateUniqueSet(int element) const;
   void CheckedHorizontalWalls(int row);
-  int CalculateHorizontalWalls(int element, int row);
+  int CalculateHorizontalWalls(int element, int row) const;
   void PreparatingNewLine(int row);
   void AddingEndLine();
   void CheckedEndLine();
