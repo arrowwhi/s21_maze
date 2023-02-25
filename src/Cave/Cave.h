@@ -37,15 +37,7 @@ class Cave {
         cave_size GetSize() const { return cave_size(x_, y_); }
         void Save(std::string path);
 
-        void print() {
-            for (int k = 0; k < y_; k++) {
-                for (int g = 0; g < x_; g++) {
-                    std::cout << cave_[k][g] << "";
-                }
-                std::cout << "\n";
-            }
-            std::cout << "\n";
-        }
+        void Print();
 };
 
 }  // namespace s21

@@ -4,22 +4,27 @@ using namespace s21;
 
 Cave::Cave(uint x, uint y, double init_chance, int birth_limit, int death_limit)\
         noexcept : x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
+
     std::default_random_engine generator(std::random_device{}());
     std::bernoulli_distribution distribution(init_chance);
+
     Allocate(x, y, [&]{ return distribution(generator); });
 }
 
 Cave::Cave(uint x, uint y, int birth_limit, int death_limit) noexcept :\
             x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
+
     Allocate(x, y, []{ return false; });
 }
 
 Cave::Cave(std::string path, int birth_limit, int death_limit) :
         birth_limit_(birth_limit), death_limit_(death_limit) {
+
     std::fstream file(path);
     if (!file) return;
     file >> x_;
     file >> y_;
+
     Allocate(x_, y_, [&]{
         if (file) {
             bool cell;
@@ -28,6 +33,7 @@ Cave::Cave(std::string path, int birth_limit, int death_limit) :
         }
         return false;
     });
+
     file.close();
 }
 
@@ -110,14 +116,13 @@ bool Cave::Update() {
                 }
             }
         }
-        // std::cout << "\n";
     }
-    // std::cout << "\n";
-    // print();
-    // std::cout << live_cells.size() << " " << dead_cells.size() << "\n";
+
+    // check if the cave has been updated
     if (live_cells.size() == 0 && dead_cells.size() == 0) {
         return true;
     }
+
     // Update the state of the cells
     for (auto &cell : live_cells) {
         cave_[cell.first][cell.second] = false;
@@ -130,13 +135,6 @@ bool Cave::Update() {
 
 int Cave::CountLiveNeighbors(int i, int j) {
     int live_neighbors = 0;
-    // for (int k = -1; k <= 1; k++) {
-    //     for (int l = -1; l <= 1; l++) {
-    //         if (k == 0 && l == 0) continue;
-    //         int row = i + k;
-    //         int col = j + l;
-    //         if (row < 0 || col < 0 || row >= y_ || col >= x_ || cave_[row][col]) live_neighbors++;
-    //     }
     for (int row = i - 1; row <= i + 1; ++row) {
         for (int col = j - 1; col <= j + 1; ++col) {
             if (row == i && col == j) continue;
@@ -144,4 +142,14 @@ int Cave::CountLiveNeighbors(int i, int j) {
         }
     }
     return live_neighbors;
+}
+
+void Cave::Print() {
+    for (int k = 0; k < y_; k++) {
+        for (int g = 0; g < x_; g++) {
+            std::cout << cave_[k][g] << "";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
 }

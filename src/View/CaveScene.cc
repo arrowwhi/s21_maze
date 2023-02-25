@@ -6,12 +6,14 @@ CaveScene::CaveScene(Ui::Widget *ui) noexcept : ui_(ui),
         cave_(new CaveController(ui->caveCols->value(), ui->caveRows->value(),
             ui->caveBirth->value(), ui->caveDeath->value())),
         Scene(ui->caveCols->value(), ui->caveRows->value(), ui->caveView) {
+
     addRect(0, 0, height_, width_);
 }
 
 void CaveScene::Create() {
     cave_->Create(ui_->caveCols->value(), ui_->caveRows->value(), ui_->caveChance->value(),\
                     ui_->caveBirth->value(), ui_->caveDeath->value());
+
     Draw();
 }
 
