@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
         ../View/Widget.cc
         ../View/Widget.h
         ../View/widget.ui
+        ../View/Scene.cc
         ../View/CaveScene.cc
         ../View/MazeScene.cc
         ../Controllers/CaveController.h

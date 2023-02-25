@@ -10,12 +10,12 @@ class MazeController : public QObject {
     public:
         MazeController() noexcept {}
         MazeController(int x, int y) noexcept {
-            maze_ = new Labyrinth(x, y);
+            maze_ = new Labyrinth(y, x);
             maze_->Generate();
         }
         void Create(int x, int y) {
             delete maze_;
-            maze_ = new Labyrinth(x, y);
+            maze_ = new Labyrinth(y, x);
             maze_->Generate();
         }
         view_size FromFile(std::string path) {
