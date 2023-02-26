@@ -29,7 +29,6 @@ set(PROJECT_SOURCES
         ../Cave/Part5.cc
         ../Maze/lab_gen.cc
         ../Maze/lab_gen.h
-        
         ../Helpers/Helpers.h
 )
 

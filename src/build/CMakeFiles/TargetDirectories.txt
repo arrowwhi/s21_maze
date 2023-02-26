@@ -1,0 +1,4 @@
+/Users/ivan/Projects/CPP/maze/src/build/CMakeFiles/maze.dir
+/Users/ivan/Projects/CPP/maze/src/build/CMakeFiles/edit_cache.dir
+/Users/ivan/Projects/CPP/maze/src/build/CMakeFiles/rebuild_cache.dir
+/Users/ivan/Projects/CPP/maze/src/build/CMakeFiles/maze_autogen.dir
