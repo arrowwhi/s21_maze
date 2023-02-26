@@ -27,8 +27,8 @@ set(PROJECT_SOURCES
         ../cave/cave.h
         ../cave/cave.cc
         ../cave/part5.cc
-        ../labyrinth_generation/lab_gen.cc
-        ../labyrinth_generation/lab_gen.h
+        ../maze/maze.cc
+        ../maze/maze.h
         
         ../helpers/helpers.h
 )

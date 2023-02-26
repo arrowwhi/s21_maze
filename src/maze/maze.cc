@@ -1,4 +1,4 @@
-#include "lab_gen.h"
+#include "maze.h"
 
 using namespace s21;
 
