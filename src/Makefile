@@ -32,6 +32,6 @@ dvi:
 	open ../README_RUS.md
 
 uninstall:
-	rm -rf build/*
+	rm -rf build/* build/.*
 	rm -rf CMakeLists.txt.user
 	# rm -rf ../dist.tar
