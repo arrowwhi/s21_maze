@@ -354,6 +354,7 @@ int Maze::GetWay(int x, int y) {
     solve_way_[x][y] += cou;
     cou++;
   }
+  solve_line_.emplace(x, y);
   DeleteMatrix(&solve_way_);
   return 0;
 }
