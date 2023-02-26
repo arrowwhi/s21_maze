@@ -26,7 +26,7 @@ dist:
 	tar czf ../dist.tar *
 
 test:
-	$(MAKE) -C Cave/Test
+	$(MAKE) test -C cave/tests
 
 dvi:
 	@doxygen Doxyfile && mv html documentation
@@ -40,3 +40,4 @@ uninstall:
 clean: uninstall
 	rm -rf documentation
 	rm -rf latex
+	$(MAKE) clean -C cave/tests

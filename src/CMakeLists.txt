@@ -30,7 +30,7 @@ set(PROJECT_SOURCES
     ../maze/maze.cc
     ../maze/maze.h
     
-    ../Helpers/Helpers.h
+    ../helpers/helpers.h
 )
 
 set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
