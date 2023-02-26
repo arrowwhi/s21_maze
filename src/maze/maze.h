@@ -9,15 +9,15 @@
 
 namespace s21 {
 
-class Labyrinth {
+class Maze {
 
   using solve_stack = std::stack<std::pair<int, int>>;
  private:
   int rows_;
   int cols_;
-  bool** horisontal_matrix_;
-  bool** vertical_matrix_;
-  int** solve_way_;
+  bool** horisontal_matrix_{};
+  bool** vertical_matrix_{};
+  int** solve_way_{};
   solve_stack solve_line_;
   std::vector<int> side_line_;
   int counter_ = 0;
@@ -26,9 +26,9 @@ class Labyrinth {
   
 
  public:
-  Labyrinth();
-  Labyrinth(int rows, int cols);
-  ~Labyrinth();
+  Maze();
+  Maze(int rows, int cols);
+  ~Maze();
 
   /**
    * @brief Геттер строк
@@ -69,7 +69,7 @@ class Labyrinth {
    * @return int 0 - успешно
    *
    */
-  int FromFile(std::string path);
+  int FromFile(const std::string& path);
 
   /**
    * @brief выводит лабиринт в консоль
@@ -82,9 +82,11 @@ class Labyrinth {
   void PrintSolve();
 
   /**
-   * @brief выводит решение лабиринта в консоль
+   * @brief Находит решение лабиринта
+   * @return int 0 - успешно, иначе нет
+   *
    */
-  int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
+  int MazeSolve(std::pair<int,int> start, std::pair<int,int> end);
   std::pair<bool, bool> GetCell(int i, int j) const noexcept;
   
  private:
@@ -104,9 +106,9 @@ class Labyrinth {
   void NextTurn(int i, int j);
   int GetWay(int x, int y);
 
-  void CreateMatrix(bool*** matrix);
-  void CreateMatrix(int*** matrix);
-  void DeleteMatrix(bool*** matrix) noexcept;
+  void CreateMatrix(bool*** matrix) const;
+  void CreateMatrix(int*** matrix) const;
+  void DeleteMatrix(bool*** matrix) const noexcept;
 };
 
 }  // namespace s21

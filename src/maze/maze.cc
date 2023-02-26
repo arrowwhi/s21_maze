@@ -4,9 +4,9 @@ using namespace s21;
 
 using solve_stack = std::stack<std::pair<int, int>>;
 
-Labyrinth::Labyrinth() : rows_(1), cols_(1) {}
+Maze::Maze() : rows_(1), cols_(1) {}
 
-Labyrinth::Labyrinth(int rows, int cols) : rows_(rows), cols_(cols) {
+Maze::Maze(int rows, int cols) : rows_(rows), cols_(cols) {
   if (rows_ <= 0 || cols_ <= 0)
     throw std::out_of_range(
         "Incorrect input, rows and cols size should be positive");
@@ -14,12 +14,12 @@ Labyrinth::Labyrinth(int rows, int cols) : rows_(rows), cols_(cols) {
   CreateMatrix(&vertical_matrix_);
 }
 
-Labyrinth::~Labyrinth() {
+Maze::~Maze() {
   if (horisontal_matrix_) DeleteMatrix(&horisontal_matrix_);
   if (vertical_matrix_) DeleteMatrix(&vertical_matrix_);
 }
 
-void Labyrinth::CreateMatrix(bool ***matrix) {
+void Maze::CreateMatrix(bool ***matrix) const {
   *matrix = new bool *[rows_]();
   for (int i = 0; i < rows_; i++) {
     try {
@@ -28,16 +28,17 @@ void Labyrinth::CreateMatrix(bool ***matrix) {
         (*matrix)[i][j] = false;
       }
     } catch (...) {
-      for (int j = 0; j < i; j++)
+      for (int j=0; j<i; j++) {
           delete[] matrix[j];
+      }
       delete[] matrix;
-        throw;
+      throw;
     }
 
   }
 }
 
-void Labyrinth::CreateMatrix(int ***matrix) {
+void Maze::CreateMatrix(int ***matrix) const {
   *matrix = new int *[rows_]();
   for (int i = 0; i < rows_; i++) {
     try {
@@ -56,18 +57,18 @@ void Labyrinth::CreateMatrix(int ***matrix) {
   }
 }
 
-void Labyrinth::DeleteMatrix(bool ***matrix) noexcept {
+void Maze::DeleteMatrix(bool ***matrix) const noexcept {
   for (int i = 0; i < rows_; i++) {
     delete[] (*matrix)[i];
   }
   delete[] * matrix;
 }
 
-int Labyrinth::GetRows() const noexcept { return rows_; }
+int Maze::GetRows() const noexcept { return rows_; }
 
-int Labyrinth::GetCols() const noexcept { return cols_; }
+int Maze::GetCols() const noexcept { return cols_; }
 
-void Labyrinth::SetRowsCols(int rows, int cols) {
+void Maze::SetRowsCols(int rows, int cols) {
   if (rows <= 0 || cols <= 0)
     throw std::out_of_range("Incorrect input, size should be positive");
   if (rows != rows_ || cols != cols_) {
@@ -84,7 +85,7 @@ void Labyrinth::SetRowsCols(int rows, int cols) {
   }
 }
 
-void Labyrinth::PrintLab() {
+void Maze::PrintLab() {
   for (int i = 0; i < cols_; i++) std::cout << "__";
   std::cout << std::endl;
   for (int i = 0; i < rows_; i++) {
@@ -105,7 +106,7 @@ void Labyrinth::PrintLab() {
   }
 }
 
-void Labyrinth::Generate() {
+void Maze::Generate() {
   FillEmptyValue();
   counter_=1;
   for (int j = 0; j < rows_ - 1; j++) {
@@ -118,14 +119,14 @@ void Labyrinth::Generate() {
   AddingEndLine();
 }
 
-void Labyrinth::FillEmptyValue() {
+void Maze::FillEmptyValue() {
   for (int i = 0; i < cols_; i++) {
     side_line_.push_back(0);
   }
 }
 
 
-void Labyrinth::AssignUniqueSet() {
+void Maze::AssignUniqueSet() {
   for (int i = 0; i < cols_; i++) {
     if (side_line_[i] == 0) {
       side_line_[i] = counter_;
@@ -134,7 +135,7 @@ void Labyrinth::AssignUniqueSet() {
   }
 }
 
-void Labyrinth::AddingVerticalWalls(int row) {
+void Maze::AddingVerticalWalls(int row) {
   for (int i = 0; i < cols_ - 1; i++) {
     bool choise = RandomNumber();
     if (!choise || side_line_[i] == side_line_[i + 1]) {
@@ -146,7 +147,7 @@ void Labyrinth::AddingVerticalWalls(int row) {
   vertical_matrix_[row][cols_ - 1] = true;
 }
 
-void Labyrinth::MergeSet(int index, int element) {
+void Maze::MergeSet(int index, int element) {
   int mutableSet = side_line_[index + 1];
   for (int j = index; j < cols_; j++) {
     if (side_line_[j] == mutableSet) {
@@ -155,7 +156,7 @@ void Labyrinth::MergeSet(int index, int element) {
   }
 }
 
-void Labyrinth::PreparatingNewLine(int row) {
+void Maze::PreparatingNewLine(int row) {
   for (int i = 0; i < cols_; i++) {
     if (horisontal_matrix_[row][i]) {
       side_line_[i] = 0;
@@ -163,13 +164,13 @@ void Labyrinth::PreparatingNewLine(int row) {
   }
 }
 
-void Labyrinth::AddingEndLine() {
+void Maze::AddingEndLine() {
   AssignUniqueSet();
   AddingVerticalWalls(rows_ - 1);
   CheckedEndLine();
 }
 
-void Labyrinth::CheckedEndLine() {
+void Maze::CheckedEndLine() {
   for (int i = 0; i < cols_ - 1; i++) {
     if (side_line_[i] != side_line_[i + 1]) {
       vertical_matrix_[rows_ - 1][i] = false;
@@ -181,7 +182,7 @@ void Labyrinth::CheckedEndLine() {
 }
 
 
-void Labyrinth::AddingHorizontalWalls(int row) {
+void Maze::AddingHorizontalWalls(int row) {
   for (int i = 0; i < cols_; i++) {
     bool choise = RandomNumber();
     if (CalculateUniqueSet(side_line_[i]) > 1 && !choise) {
@@ -190,7 +191,7 @@ void Labyrinth::AddingHorizontalWalls(int row) {
   }
 }
 
-int Labyrinth::CalculateUniqueSet(int element) const {
+int Maze::CalculateUniqueSet(int element) const {
   int countUniqSet = 0;
   for (int i = 0; i < cols_; i++) {
     if (side_line_[i] == element) {
@@ -200,7 +201,7 @@ int Labyrinth::CalculateUniqueSet(int element) const {
   return countUniqSet;
 }
 
-void Labyrinth::CheckedHorizontalWalls(int row) {
+void Maze::CheckedHorizontalWalls(int row) {
   for (int i = 0; i < cols_; i++) {
     if (CalculateHorizontalWalls(side_line_[i], row) == 0) {
       horisontal_matrix_[row][i] = false;
@@ -208,7 +209,7 @@ void Labyrinth::CheckedHorizontalWalls(int row) {
   }
 }
 
-int Labyrinth::CalculateHorizontalWalls(int element, int row) const {
+int Maze::CalculateHorizontalWalls(int element, int row) const {
   int countHorizontalWalls = 0;
   for (int i = 0; i < cols_; i++) {
     if (side_line_[i] == element && !horisontal_matrix_[row][i]) {
@@ -220,13 +221,13 @@ int Labyrinth::CalculateHorizontalWalls(int element, int row) const {
 
 
 
-bool Labyrinth::RandomNumber() {
+bool Maze::RandomNumber() {
   srand((unsigned)rand_);
   rand_ = rand();
   return rand_ % 3;
 }
 
-int Labyrinth::FromFile(std::string path) {
+int Maze::FromFile(const std::string& path) {
   int num;
   char *buff = new char[20];
   std::ifstream file_in(path);
@@ -248,13 +249,11 @@ int Labyrinth::FromFile(std::string path) {
       num = atoi(buff);
       if (num != 1 && num != 0) return -1;
       vertical_matrix_[i][j] = num;
-      num = -1;
     }
     file_in.getline(buff, 25, '\n');
     num = atoi(buff);
     if (num != 1 && num != 0) return -1;
     vertical_matrix_[i][cols_ - 1] = num;
-    num = -1;
   }
 
   for (int i = 0; i < rows_; i++) {
@@ -270,15 +269,12 @@ int Labyrinth::FromFile(std::string path) {
     num = atoi(buff);
     if (num != 1 && num != 0) return -1;
     horisontal_matrix_[i][cols_ - 1] = num;
-    num = -1;
   }
 
   return 0;
 }
 
-int Labyrinth::LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end) {
-  std::cout << "x1 = " << start.first << " y1 = " << start.second << std::endl;
-  std::cout << "x2= = " << end.first << " y2 = " << end.second << std::endl;
+int Maze::MazeSolve(std::pair<int,int> start, std::pair<int,int> end) {
   counter_ = 1;
   exit_ = true;
   CreateMatrix(&solve_way_);
@@ -303,7 +299,7 @@ int Labyrinth::LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end) 
   }
 }
 
-void Labyrinth::NextTurn(int i, int j) {
+void Maze::NextTurn(int i, int j) {
   if (j>0 && !vertical_matrix_[i][j-1] && !solve_way_[i][j-1]) {
     solve_way_[i][j-1] = counter_+1;
     exit_ = true;
@@ -324,7 +320,7 @@ void Labyrinth::NextTurn(int i, int j) {
 
 
 
-void Labyrinth::PrintSolve() {
+void Maze::PrintSolve() {
   for(int i = 0; i < rows_; i++) {
     for(int j = 0; j < cols_; j++) {
       std::cout << "\t" << solve_way_[i][j];
@@ -333,14 +329,14 @@ void Labyrinth::PrintSolve() {
   }
 }
 
-int Labyrinth::GetWay(int x, int y) {
+int Maze::GetWay(int x, int y) {
   int cou = 1;
   ++counter_;
   if (!solve_way_[x][y]) return -1;
   solve_way_[x][y]+=1;
   solve_line_ = solve_stack();
   while (cou != counter_) {
-    solve_line_.push(std::make_pair(x,y));
+    solve_line_.emplace(x,y);
     solve_way_[x][y] = -1;
     if (x < rows_-1 && solve_way_[x+1][y]+cou==counter_ && !horisontal_matrix_[x][y]) {
       x = x+1;
@@ -352,16 +348,15 @@ int Labyrinth::GetWay(int x, int y) {
       y = y-1;
     }
     solve_way_[x][y]+=cou;
-    solve_line_.push(std::make_pair(x,y));
     cou++;
   }
   return 0;
 }
 
-const solve_stack &Labyrinth::GetSolve() const noexcept {
+const solve_stack &Maze::GetSolve() const noexcept {
   return solve_line_;
 }
 
-std::pair<bool, bool> Labyrinth::GetCell(int i, int j) const noexcept {
+std::pair<bool, bool> Maze::GetCell(int i, int j) const noexcept {
   return std::make_pair(horisontal_matrix_[i][j], vertical_matrix_[i][j]);
 }
