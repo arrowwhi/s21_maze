@@ -32,13 +32,13 @@ TEST(Maze, Solve) {
   maze.MazeSolve(std::make_pair(0, 0), std::make_pair(1, 0));
   auto out_stack = maze.GetSolve();
   s21::solve_stack std_stack;
-  std_stack.emplace(std::make_pair(1, 0));
-  std_stack.emplace(std::make_pair(1, 0));
-  std_stack.emplace(std::make_pair(2, 0));
-  std_stack.emplace(std::make_pair(2, 1));
-  std_stack.emplace(std::make_pair(1, 1));
-  std_stack.push(std::make_pair(0, 1));
-  std_stack.emplace(std::make_pair(0, 0));
+  std_stack.emplace(1, 0);
+  std_stack.emplace(1, 0);
+  std_stack.emplace(2, 0);
+  std_stack.emplace(2, 1);
+  std_stack.emplace(1, 1);
+  std_stack.emplace(0, 1);
+  std_stack.emplace(0, 0);
   while (!out_stack.empty()) {
     ASSERT_EQ(out_stack.top().first, std_stack.top().first);
     ASSERT_EQ(out_stack.top().second, std_stack.top().second);

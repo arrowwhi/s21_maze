@@ -84,7 +84,7 @@ class Maze {
    * @return int 0 - успешно, иначе нет
    *
    */
-  int MazeSolve(std::pair<int, int> start, std::pair<int, int> end);
+  int MazeSolve(point start, point end);
   std::pair<bool, bool> GetCell(int i, int j) const noexcept;
 
  private:

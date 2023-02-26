@@ -226,7 +226,7 @@ int Maze::FromFile(const std::string &path) {
   return 0;
 }
 
-int Maze::MazeSolve(std::pair<int, int> start, std::pair<int, int> end) {
+int Maze::MazeSolve(point start, point end) {
   counter_ = 1;
   exit_ = true;
   CreateMatrix(&solve_way_, 0);
@@ -236,7 +236,6 @@ int Maze::MazeSolve(std::pair<int, int> start, std::pair<int, int> end) {
     for (int i = 0; i < rows_; i++) {
       for (int j = 0; j < cols_; j++) {
         if (solve_way_[i][j] == counter_) {
-          exit_ = true;
           NextTurn(i, j);
         }
       }
