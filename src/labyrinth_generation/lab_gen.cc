@@ -4,7 +4,7 @@ using namespace s21;
 
 using solve_stack = std::stack<std::pair<int, int>>;
 
-Labyrinth::Labyrinth() : rows_(0), cols_(0) {}
+Labyrinth::Labyrinth() : rows_(1), cols_(1) {}
 
 Labyrinth::Labyrinth(int rows, int cols) : rows_(rows), cols_(cols) {
   if (rows_ <= 0 || cols_ <= 0)
@@ -340,9 +340,9 @@ int Labyrinth::GetWay(int x, int y) {
   while (cou != counter_) {
     solve_line_.push(std::make_pair(x,y));
     solve_way_[x][y] = -1;
-    if (x < rows_-1 && solve_way_[x+1][y]+cou==counter_) {
+    if (x < rows_-1 && solve_way_[x+1][y]+cou==counter_ && !vertical_matrix_[x][y]) {
       x = x+1;
-    } else if (x>0 && solve_way_[x-1][y]+cou==counter_) {
+    } else if (x>0 && solve_way_[x-1][y]+cou==counter_ && !vertical_matrix_[x][y-1]) {
       x = x-1;
     } else if (y < cols_-1 && solve_way_[x][y+1]+cou == counter_) {
       y = y+1;

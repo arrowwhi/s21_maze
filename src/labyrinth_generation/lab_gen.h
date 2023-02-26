@@ -29,15 +29,60 @@ class Labyrinth {
   Labyrinth(int rows, int cols);
   ~Labyrinth();
 
+  /**
+   * @brief Геттер строк
+   * @return 
+   */
   int GetRows() const noexcept;
+
+  /**
+   * @brief Геттер столбцов
+   *
+   */
   int GetCols() const noexcept;
+
+  /**
+   * @brief Возвращает стек из решенного лабиринта
+   *
+   */
   solve_stack GetSolve() const noexcept;
+
+  /**
+   * @brief Изменяет размер лабиринта, вместе с этим перерисовывает его
+   * 
+   * @param rows количество строк
+   * @param cols количество столбцов
+   */
   void SetRowsCols(int rows, int cols);
 
+  /**
+   * @brief Генерирует случайный лабиринт с выставленными размерами
+   *
+   */
   void Generate();
+
+  /**
+   * @brief Загружает лабиринт из файла
+   * 
+   * @param path путь до файла
+   * @return int 0 - успешно
+   *
+   */
   int FromFile(std::string path);
+
+  /**
+   * @brief выводит лабиринт в консоль
+   */
   void PrintLab();
+
+  /**
+   * @brief выводит решение лабиринта в консоль
+   */
   void PrintSolve();
+
+  /**
+   * @brief выводит решение лабиринта в консоль
+   */
   int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
   std::pair<bool, bool> GetCell(int i, int j) const noexcept;
   
