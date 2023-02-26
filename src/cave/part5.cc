@@ -55,7 +55,7 @@ const solve_stack &Cave::ShortestPath(point start, point end) {
       int nx = curr.first + dx[i];
       int ny = curr.second + dy[i];
 
-      if (nx >= 0 && nx < x_ && ny >= 0 && ny < y_) {
+      if (nx >= 0 && nx < y_ && ny >= 0 && ny < x_) {
         if (!cave_[nx][ny] && !visited[nx][ny]) {
           visited[nx][ny] = true;
           q.push(point(nx, ny));
