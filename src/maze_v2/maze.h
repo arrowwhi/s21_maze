@@ -104,10 +104,34 @@ class Maze {
   void NextTurn(int i, int j);
   int GetWay(int x, int y);
 
-  void CreateMatrix(bool*** matrix) const;
-  void CreateMatrix(int*** matrix) const;
-  void DeleteMatrix(bool*** matrix) const noexcept;
-  void DeleteMatrix(int*** matrix) const noexcept;
+
+    template<class T>
+    void CreateMatrix(T ***matrix, T value) const {
+        *matrix = new T *[rows_]();
+        for (int i = 0; i < rows_; i++) {
+            try {
+                (*matrix)[i] = new T[cols_]();
+                for (int j = 0; j < cols_; j++) {
+                    (*matrix)[i][j] = value;
+                }
+            } catch (...) {
+                for (int j = 0; j < i; j++) {
+                    delete[] matrix[j];
+                }
+                delete[] matrix;
+                throw;
+            }
+        }
+    }
+//  void DeleteMatrix(bool*** matrix) const noexcept;
+//  void DeleteMatrix(int*** matrix) const noexcept;
+  template<class T>
+  void DeleteMatrix(T ***matrix) const noexcept {
+    for (int i = 0; i < rows_; i++) {
+      delete[](*matrix)[i];
+    }
+    delete[] * matrix;
+  }
 };
 
 }  // namespace s21

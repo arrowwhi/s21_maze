@@ -10,8 +10,8 @@ Maze::Maze(int rows, int cols) : rows_(rows), cols_(cols) {
   if (rows_ <= 0 || cols_ <= 0)
     throw std::out_of_range(
         "Incorrect input, rows and cols size should be positive");
-  CreateMatrix(&horisontal_matrix_);
-  CreateMatrix(&vertical_matrix_);
+  CreateMatrix(&horisontal_matrix_, false);
+  CreateMatrix(&vertical_matrix_, false);
 }
 
 Maze::~Maze() {
@@ -19,56 +19,6 @@ Maze::~Maze() {
   if (vertical_matrix_) DeleteMatrix(&vertical_matrix_);
 }
 
-void Maze::CreateMatrix(bool ***matrix) const {
-  *matrix = new bool *[rows_]();
-  for (int i = 0; i < rows_; i++) {
-    try {
-      (*matrix)[i] = new bool[cols_]();
-      for (int j = 0; j < cols_; j++) {
-        (*matrix)[i][j] = false;
-      }
-    } catch (...) {
-      for (int j = 0; j < i; j++) {
-        delete[] matrix[j];
-      }
-      delete[] matrix;
-      throw;
-    }
-  }
-}
-
-void Maze::CreateMatrix(int ***matrix) const {
-  *matrix = new int *[rows_]();
-  for (int i = 0; i < rows_; i++) {
-    try {
-      (*matrix)[i] = new int[cols_]();
-      for (int j = 0; j < cols_; j++) {
-        (*matrix)[i][j] = 0;
-      }
-    } catch (...) {
-      for (int j = 0; j < i; j++) {
-        delete[] matrix[j];
-      }
-      delete[] matrix;
-
-      throw;
-    }
-  }
-}
-
-void Maze::DeleteMatrix(bool ***matrix) const noexcept {
-  for (int i = 0; i < rows_; i++) {
-    delete[](*matrix)[i];
-  }
-  delete[] * matrix;
-}
-
-void Maze::DeleteMatrix(int ***matrix) const noexcept {
-  for (int i = 0; i < rows_; i++) {
-    delete[](*matrix)[i];
-  }
-  delete[] * matrix;
-}
 
 int Maze::GetRows() const noexcept { return rows_; }
 
@@ -86,8 +36,8 @@ void Maze::SetRowsCols(int rows, int cols) {
     }
     rows_ = rows;
     cols_ = cols;
-    CreateMatrix(&horisontal_matrix_);
-    CreateMatrix(&vertical_matrix_);
+    CreateMatrix(&horisontal_matrix_, false);
+    CreateMatrix(&vertical_matrix_, false);
   }
 }
 
@@ -279,7 +229,7 @@ int Maze::FromFile(const std::string &path) {
 int Maze::MazeSolve(std::pair<int, int> start, std::pair<int, int> end) {
   counter_ = 1;
   exit_ = true;
-  CreateMatrix(&solve_way_);
+  CreateMatrix(&solve_way_, 0);
   solve_way_[start.first][start.second] = counter_;
   while (!solve_way_[end.first][end.second] && exit_) {
     exit_ = false;
