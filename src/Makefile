@@ -5,7 +5,7 @@ ifeq ($(detected_OS),Linux)
 PATH_V=build/maze
 endif
 ifeq ($(detected_OS),Darwin)
-PATH_V=build/viewer.app/Contents/MacOS/maze
+PATH_V=build/maze.app/Contents/MacOS/maze
 endif
 
 all: install start
