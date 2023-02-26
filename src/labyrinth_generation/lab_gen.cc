@@ -277,6 +277,8 @@ int Labyrinth::FromFile(std::string path) {
 }
 
 int Labyrinth::LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end) {
+  std::cout << "x1 = " << start.first << " y1 = " << start.second << std::endl;
+  std::cout << "x2= = " << end.first << " y2 = " << end.second << std::endl;
   counter_ = 1;
   exit_ = true;
   CreateMatrix(&solve_way_);
@@ -340,13 +342,13 @@ int Labyrinth::GetWay(int x, int y) {
   while (cou != counter_) {
     solve_line_.push(std::make_pair(x,y));
     solve_way_[x][y] = -1;
-    if (x < rows_-1 && solve_way_[x+1][y]+cou==counter_ && !vertical_matrix_[x][y]) {
+    if (x < rows_-1 && solve_way_[x+1][y]+cou==counter_ && !horisontal_matrix_[x][y]) {
       x = x+1;
-    } else if (x>0 && solve_way_[x-1][y]+cou==counter_ && !vertical_matrix_[x][y-1]) {
+    } else if (x>0 && solve_way_[x-1][y]+cou==counter_ && !horisontal_matrix_[x-1][y]) {
       x = x-1;
-    } else if (y < cols_-1 && solve_way_[x][y+1]+cou == counter_) {
+    } else if (y < cols_-1 && solve_way_[x][y+1]+cou == counter_ && !vertical_matrix_[x][y]) {
       y = y+1;
-    } else if (y > 0 && solve_way_[x][y-1]+cou == counter_) {
+    } else if (y > 0 && solve_way_[x][y-1]+cou == counter_ && !vertical_matrix_[x][y-1]) {
       y = y-1;
     }
     solve_way_[x][y]+=cou;
