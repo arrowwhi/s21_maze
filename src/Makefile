@@ -25,7 +25,7 @@ dist:
 
 test:
 	$(MAKE) test -C cave/tests
-	$(MAKE) test -C maze/tests
+	$(MAKE) test -C maze_v2/tests
 
 dvi:
 	@doxygen Doxyfile && mv html documentation
@@ -41,4 +41,4 @@ clean: uninstall
 	rm -rf documentation
 	rm -rf latex
 	$(MAKE) clean -C cave/tests
-	$(MAKE) clean -C maze/tests
+	$(MAKE) clean -C maze_v2/tests

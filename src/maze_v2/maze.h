@@ -2,16 +2,15 @@
 
 #include <fstream>
 #include <iostream>
+#include <stack>
 #include <string>
 #include <vector>
-#include <stack>
 
 #include "../helpers/helpers.h"
 
 namespace s21 {
 
 class Maze {
-
  private:
   int rows_;
   int cols_;
@@ -23,7 +22,6 @@ class Maze {
   int counter_ = 0;
   unsigned rand_ = time(nullptr);
   bool exit_ = true;
-  
 
  public:
   Maze();
@@ -32,7 +30,7 @@ class Maze {
 
   /**
    * @brief Геттер строк
-   * @return 
+   * @return
    */
   int GetRows() const noexcept;
 
@@ -46,11 +44,11 @@ class Maze {
    * @brief Возвращает стек из решенного лабиринта
    *
    */
-  const solve_stack &GetSolve() const noexcept;
+  const solve_stack& GetSolve() const noexcept;
 
   /**
    * @brief Изменяет размер лабиринта, вместе с этим перерисовывает его
-   * 
+   *
    * @param rows количество строк
    * @param cols количество столбцов
    */
@@ -64,7 +62,7 @@ class Maze {
 
   /**
    * @brief Загружает лабиринт из файла
-   * 
+   *
    * @param path путь до файла
    * @return int 0 - успешно
    *
@@ -86,9 +84,9 @@ class Maze {
    * @return int 0 - успешно, иначе нет
    *
    */
-  int MazeSolve(std::pair<int,int> start, std::pair<int,int> end);
+  int MazeSolve(std::pair<int, int> start, std::pair<int, int> end);
   std::pair<bool, bool> GetCell(int i, int j) const noexcept;
-  
+
  private:
   void FillEmptyValue();
   bool RandomNumber();
