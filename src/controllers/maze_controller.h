@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../labyrinth_generation/lab_gen.h"
+#include "../maze/maze.h"
 #include "../helpers/helpers.h"
 
 namespace s21 {

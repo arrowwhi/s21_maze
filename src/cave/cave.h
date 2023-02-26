@@ -30,7 +30,7 @@ class Cave {
     bool **cave_;
     int birth_limit_, death_limit_;
     int CountLiveNeighbors(int i, int j);
-    void Allocate(uint x, uint y, std::function<bool(void)> value_func);
+    void Allocate(std::function<bool(void)> value_func);
     solve_stack path_;
 
     public:
