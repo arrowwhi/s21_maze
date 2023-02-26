@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Cave/Cave.h"
+#include "../cave/cave.h"
 
 #include <QObject>
 

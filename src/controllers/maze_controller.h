@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../labyrinth_generation/lab_gen.h"
-#include "../Helpers/Helpers.h"
+#include "../helpers/helpers.h"
 
 namespace s21 {
 

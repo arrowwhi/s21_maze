@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../Cave.h"
+#include "../cave.h"
 
 using namespace s21;
 

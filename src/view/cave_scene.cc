@@ -1,4 +1,4 @@
-#include "Widget.h"
+#include "widget.h"
 
 using namespace s21;
 

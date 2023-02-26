@@ -2,17 +2,16 @@
 
 #include <QWidget>
 #include <QGraphicsSceneMouseEvent>
-// #include <functional>
 #include <QTimer>
 #include <QFileDialog>
 #include <cmath>
 
 #include <iostream>
 
-#include "../Controllers/CaveController.h"
-#include "../Controllers/MazeController.h"
+#include "../controllers/cave_controller.h"
+#include "../controllers/maze_controller.h"
 #include "./ui_widget.h"
-#include "Constants.h"
+#include "constants.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }

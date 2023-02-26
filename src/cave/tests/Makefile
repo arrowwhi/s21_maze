@@ -7,11 +7,11 @@ gcov_report: testg
 
 
 testg:
-	g++ -std=c++17 -pthread Tests.cc ../Cave.cc --coverage -lgtest_main -lgtest -lpthread -lgcov -o test
+	g++ -std=c++17 -pthread tests.cc ../cave.cc --coverage -lgtest_main -lgtest -lpthread -lgcov -o test
 	./test
 
 test: clean
-	g++ -std=c++17 -pthread Tests.cc ../Cave.cc -lgtest_main -lgtest -lpthread -lgcov -o test
+	g++ -std=c++17 -pthread tests.cc ../cave.cc -lgtest_main -lgtest -lpthread -lgcov -o test
 	./test
 
 valgrind:
