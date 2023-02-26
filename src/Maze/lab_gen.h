@@ -1,5 +1,4 @@
-#ifndef MAZE_SRC_LAB_GEN_H
-#define MAZE_SRC_LAB_GEN_H
+#pragma once
 
 #include <fstream>
 #include <iostream>
@@ -7,8 +6,13 @@
 #include <vector>
 #include <stack>
 
+#include "../Helpers/Helpers.h"
+
 namespace s21 {
 
+/*!
+	\brief Класс, создающий и обрабатывающий лабиринты.
+*/
 class Labyrinth {
 
   using solve_stack = std::stack<std::pair<int, int>>;
@@ -32,27 +36,27 @@ class Labyrinth {
 
   /**
    * @brief Геттер строк
-   * @return 
+   * @return количество строк
    */
   int GetRows() const noexcept;
 
   /**
    * @brief Геттер столбцов
-   *
+   * @return int количество столбцов
    */
   int GetCols() const noexcept;
 
   /**
-   * @brief Возвращает стек из решенного лабиринта
-   *
+   * @brief Геттер решения
+   * @return solve_stack стек из решенного лабиринта
    */
   const solve_stack &GetSolve() const noexcept;
 
   /**
    * @brief Изменяет размер лабиринта, вместе с этим перерисовывает его
    * 
-   * @param rows количество строк
-   * @param cols количество столбцов
+   * @param[in] rows количество строк
+   * @param[in] cols количество столбцов
    */
   void SetRowsCols(int rows, int cols);
 
@@ -66,7 +70,8 @@ class Labyrinth {
    * @brief Загружает лабиринт из файла
    * 
    * @param path путь до файла
-   * @return int 0 - успешно
+   * @return int 0 - успешно,
+   * @return остальные ответы - ошибка
    *
    */
   int FromFile(std::string path);
@@ -83,8 +88,17 @@ class Labyrinth {
 
   /**
    * @brief выводит решение лабиринта в консоль
+   * @return int 0 - успешно,
+   * @return остальные ответы - ошибка
    */
   int LabyrinthSolve(std::pair<int,int> start, std::pair<int,int> end);
+
+  /**
+   * @brief Получает вертикальную и горизонтальную стену у ячейки
+   * @param[in] i строка ячейки
+   * @param[in] j столбец ячейки
+   * @return пара<граница снизу, граница справа>
+   */
   std::pair<bool, bool> GetCell(int i, int j) const noexcept;
   
  private:
@@ -110,5 +124,3 @@ class Labyrinth {
 };
 
 }  // namespace s21
-
-#endif  //   MAZE_SRC_LAB_GEN_H

@@ -29,9 +29,14 @@ test:
 	$(MAKE) -C Cave/Test
 
 dvi:
-	open ../README_RUS.md
+	@doxygen Doxyfile && mv html documentation
+	@open documentation/index.html
 
 uninstall:
 	rm -rf build/* build/.*
 	rm -rf CMakeLists.txt.user
 	# rm -rf ../dist.tar
+
+clean: uninstall
+	rm -rf documentation
+	rm -rf latex

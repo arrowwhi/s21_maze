@@ -15,22 +15,22 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
-        ../main.cc
-        ../view/widget.cc
-        ../view/widget.h
-        ../view/widget.ui
-        ../view/scene.cc
-        ../view/cave_scene.cc
-        ../view/maze_scene.cc
-        ../controllers/cave_controller.h
-        ../controllers/maze_controller.h
-        ../cave/cave.h
-        ../cave/cave.cc
-        ../cave/part5.cc
-        ../maze/maze.cc
-        ../maze/maze.h
+        ../Main.cc
+        ../View/Widget.cc
+        ../View/Widget.h
+        ../View/widget.ui
+        ../View/Scene.cc
+        ../View/CaveScene.cc
+        ../View/MazeScene.cc
+        ../Controllers/CaveController.h
+        ../Controllers/MazeController.h
+        ../Cave/Cave.h
+        ../Cave/Cave.cc
+        ../Cave/Part5.cc
+        ../labyrinth_generation/lab_gen.cc
+        ../labyrinth_generation/lab_gen.h
         
-        ../helpers/helpers.h
+        ../Helpers/Helpers.h
 )
 
 set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
