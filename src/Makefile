@@ -3,9 +3,11 @@ detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
 ifeq ($(detected_OS),Linux)
 PATH_V=build/maze
+# PATH_V=$(abspath build/maze)
 endif
 ifeq ($(detected_OS),Darwin)
 PATH_V=build/maze.app/Contents/MacOS/maze
+# PATH_V=$(abspath build/maze.app/Contents/MacOS/maze)
 endif
 
 all: install start
@@ -13,11 +15,9 @@ all: install start
 r: uninstall install start
 
 install:
-	# cmake -B" build" -H"build"
 	cmake -B" build"
 	$(MAKE) -C build
-	# rm -rf ~/Desktop/viewer
-	# ln $(PATH_V) ~/Desktop
+	ln -sf $(abspath $(PATH_V)) ~/Desktop/maze
 
 start:
 	./$(PATH_V)
@@ -35,6 +35,7 @@ dvi:
 uninstall:
 	rm -rf build
 	rm -rf CMakeLists.txt.user
+	rm -rf ~/Desktop/maze
 	# rm -rf ../dist.tar
 
 clean: uninstall
