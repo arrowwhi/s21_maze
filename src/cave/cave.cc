@@ -4,16 +4,19 @@ using namespace s21;
 
 Cave::Cave(uint x, uint y, double init_chance, int birth_limit, int death_limit)\
         noexcept : x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
-
+    
+    // Use a Bernoulli distribution to randomly assign wall or air to each cell
     std::default_random_engine generator(std::random_device{}());
     std::bernoulli_distribution distribution(init_chance);
 
+    // Allocate memory for the cave and assign each cell a value according to the distribution
     Allocate(x, y, [&]{ return distribution(generator); });
 }
 
 Cave::Cave(uint x, uint y, int birth_limit, int death_limit) noexcept :\
             x_(x), y_(y), birth_limit_(birth_limit), death_limit_(death_limit) {
-
+            
+    // Allocate memory for the cave and assign each cell a value of air
     Allocate(x, y, []{ return false; });
 }
 
@@ -22,9 +25,12 @@ Cave::Cave(std::string path, int birth_limit, int death_limit) :
 
     std::fstream file(path);
     if (!file) return;
+
+    // Read the width and height from the file
     file >> x_;
     file >> y_;
 
+    // Allocate memory for the cave and read each cell from the file
     Allocate(x_, y_, [&]{
         if (file) {
             bool cell;
@@ -38,9 +44,12 @@ Cave::Cave(std::string path, int birth_limit, int death_limit) :
 }
 
 void Cave::Allocate(uint x, uint y, std::function<bool(void)> value_func) {
+    // Allocate memory for the cave
     cave_ = new bool*[y];
     for (uint k = 0; k < y_; ++k) {
         cave_[k] = new bool[x];
+
+        // Initialize each cell with the value returned by the function
         std::generate_n(cave_[k], x, value_func);
     }
 }
