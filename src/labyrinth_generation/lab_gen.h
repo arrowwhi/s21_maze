@@ -46,7 +46,7 @@ class Labyrinth {
    * @brief Возвращает стек из решенного лабиринта
    *
    */
-  solve_stack GetSolve() const noexcept;
+  const solve_stack &GetSolve() const noexcept;
 
   /**
    * @brief Изменяет размер лабиринта, вместе с этим перерисовывает его
