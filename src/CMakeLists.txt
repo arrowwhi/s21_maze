@@ -30,8 +30,8 @@ set(PROJECT_SOURCES
     ../maze/maze.cc
     ../maze/maze.h
     
-    ../Helpers/Helpers.h
-)
+    ../Helpers/Helpers.h)
+#        maze/tests/maze_test.cc
 
 set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
 set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/MyIcon.icns")
