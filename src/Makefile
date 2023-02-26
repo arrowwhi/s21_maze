@@ -33,7 +33,7 @@ dvi:
 	@open documentation/index.html
 
 uninstall:
-	rm -rf build/* build/.*
+	rm -rf build
 	rm -rf CMakeLists.txt.user
 	# rm -rf ../dist.tar
 
