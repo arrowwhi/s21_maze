@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../maze/maze.h"
+#include "../maze_v2/maze.h"
 #include "../helpers/helpers.h"
 
 namespace s21 {

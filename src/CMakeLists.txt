@@ -27,8 +27,8 @@ set(PROJECT_SOURCES
     ../src/cave/cave.h
     ../src/cave/cave.cc
     ../src/cave/part5.cc
-    ../src/maze/maze.cc
-    ../src/maze/maze.h
+    ../src/maze_v2/maze.cc
+    ../src/maze_v2/maze.h
     ../src/helpers/helpers.h
 )
 
