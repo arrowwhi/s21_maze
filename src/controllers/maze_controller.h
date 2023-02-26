@@ -6,22 +6,22 @@
 namespace s21 {
 
 class MazeController : public QObject {
-    Labyrinth *maze_ = nullptr;
+    Maze *maze_ = nullptr;
     public:
         MazeController() noexcept {}
         MazeController(int x, int y) noexcept {
-            maze_ = new Labyrinth(y, x);
+            maze_ = new Maze(y, x);
             maze_->Generate();
         }
         void Create(int x, int y) {
             delete maze_;
-            maze_ = new Labyrinth(y, x);
+            maze_ = new Maze(y, x);
             maze_->Generate();
         }
         view_size FromFile(std::string path) {
             if (path != "") {
                 delete maze_;
-                maze_ = new Labyrinth();
+                maze_ = new Maze();
                 maze_->FromFile(path);
             }
             return GetSize();
@@ -34,7 +34,7 @@ class MazeController : public QObject {
         }
         ~MazeController() noexcept { delete maze_; }
         const solve_stack &ShortestPath(point start, point end) {
-            maze_->LabyrinthSolve(start, end);
+            maze_->MazeSolve(start, end);
             return maze_->GetSolve();
         }
 };
